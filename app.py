@@ -1,15 +1,17 @@
 import os
 import pickle
 import pandas as pd
+from pathlib import Path
 from flask import Flask, request, jsonify, render_template
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
-# Load TF-IDF files and dataframe
-tfidf_matrix = pickle.load(open("tfidf_matrix.pkl", "rb"))
-tfidf = pickle.load(open("tfidf.pkl", "rb"))
-df = pd.read_pickle("df.pkl")
+# Get absolute path to pickle files
+BASE_DIR = Path(__file__).parent
+tfidf_matrix = pickle.load(open(BASE_DIR / "tfidf_matrix.pkl", "rb"))
+tfidf = pickle.load(open(BASE_DIR / "tfidf.pkl", "rb"))
+df = pd.read_pickle(BASE_DIR / "df.pkl")
 
 def ask_gita(question, top_k=3):
     q_embedding = tfidf.transform([question])

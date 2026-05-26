@@ -9,9 +9,16 @@ app = Flask(__name__)
 
 # Get absolute path to pickle files
 BASE_DIR = Path(__file__).parent
-tfidf_matrix = pickle.load(open(BASE_DIR / "tfidf_matrix.pkl", "rb"))
-tfidf = pickle.load(open(BASE_DIR / "tfidf.pkl", "rb"))
-df = pd.read_pickle(BASE_DIR / "df.pkl")
+
+# Load TF-IDF files and dataframe with error handling
+try:
+    tfidf_matrix = pickle.load(open(BASE_DIR / "tfidf_matrix.pkl", "rb"))
+    tfidf = pickle.load(open(BASE_DIR / "tfidf.pkl", "rb"))
+    df = pd.read_pickle(BASE_DIR / "df.pkl")
+    app.logger.info("Pickle files loaded successfully")
+except Exception as e:
+    app.logger.error(f"Error loading pickle files: {str(e)}")
+    raise
 
 def ask_gita(question, top_k=3):
     q_embedding = tfidf.transform([question])
@@ -53,6 +60,7 @@ def ask():
         answers = ask_gita(question)
         return jsonify({"answers": answers})
     except Exception as e:
+        app.logger.error(f"Error in /ask endpoint: {str(e)}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":

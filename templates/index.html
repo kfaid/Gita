@@ -607,7 +607,6 @@
                 <!-- Example Chips -->
                 <div class="chips-container">
                     <span class="chip-label">Try asking:</span>
-                    <button class="chip" onclick="fillAndSubmit('Who is Krishna?')">Who is Krishna?</button>
                     <button class="chip" onclick="fillAndSubmit('What is Maya?')">What is Maya?</button>
                     <button class="chip" onclick="fillAndSubmit('What is Karma?')">What is Karma?</button>
                     <button class="chip" onclick="fillAndSubmit('How to find peace?')">How to find peace?</button>
@@ -755,25 +754,14 @@
                                 </svg>
                                 Chapter ${ans.Chapter}, Verse ${ans.Verse}
                             </div>
-                            <div class="score-badge">
-                                <span class="score-dot"></span>
-                                Match Relevance: ${displayPercentage}%
-                            </div>
+                            
                         </div>
                         
                         <blockquote class="verse-meaning">
                             "${escapeHtml(ans.Meaning)}"
                         </blockquote>
 
-                        <div class="score-bar-wrapper">
-                            <div class="score-bar-text">
-                                <span>Relevance level</span>
-                                <span>${displayPercentage}% Match</span>
-                            </div>
-                            <div class="score-bar-bg">
-                                <div class="score-bar-fill" data-score="${displayPercentage}"></div>
-                            </div>
-                        </div>
+                        
                     </div>
                 `;
                 cardsWrapper.insertAdjacentHTML('beforeend', cardHtml);
